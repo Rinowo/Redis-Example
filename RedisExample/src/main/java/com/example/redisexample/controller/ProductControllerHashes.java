@@ -1,40 +1,41 @@
 package com.example.redisexample.controller;
 
+
 import com.example.redisexample.entity.Product;
 import com.example.redisexample.repository.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
-public class ProductController {
+@RequestMapping("/hashes")
+public class ProductControllerHashes {
 
     @Autowired
-    private ProductDao dao;
+    private ProductDao daoHashes;
 
-    @PostMapping
+    @PostMapping(path = "/save")
     public Product save(@RequestBody Product product) {
-        return dao.save(product);
+        return daoHashes.saveHashes(product);
     }
 
     @GetMapping
     public List<Product> getAllProducts() {
-        return dao.findAll();
+        return daoHashes.findAllHashes();
     }
 
     @GetMapping("/{id}")
     @Cacheable(key = "#id", value = "Product", unless = "#result.price > 1000")
     public Product findProduct(@PathVariable int id) {
-        return dao.findProductById(id);
+        return daoHashes.findProductByIdHashes(id);
     }
 
     @DeleteMapping("/{id}")
     @CacheEvict(key = "#id", value = "Product")
     public String remove(@PathVariable int id) {
-        return dao.deleteProduct(id);
+        return daoHashes.deleteProductHashes(id);
     }
 }

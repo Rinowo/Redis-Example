@@ -7,7 +7,6 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Data
 @AllArgsConstructor
@@ -15,8 +14,12 @@ import java.math.BigDecimal;
 @RedisHash("Product")
 public class Product implements Serializable {
     @Id
-    private int id;
+    private Integer id;
     private String name;
-    private int qty;
-    private long price;
+    private Integer qty;
+    private Long price;
+
+    public Product(Integer id) {
+        this.id = id;
+    }
 }
